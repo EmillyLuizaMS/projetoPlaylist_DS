@@ -6,7 +6,8 @@ public class PlaylistDTO {
     
     private Long id;
     private String nome;
-    private int visibilidade;
+    private boolean visibilidade;
+    private Float nota_media;
 
      public PlaylistDTO() {
     }
@@ -14,7 +15,9 @@ public class PlaylistDTO {
     public PlaylistDTO(Playlist playlist) {
         this.id = playlist.getId();
         this.nome = playlist.getNome();
-        this.visibilidade = playlist.getVisibilidade();
+        this.visibilidade = playlist.isVisibilidade();
+        this.nota_media = playlist.getNota_media();
+
     }
 
     public Long getId() {
@@ -25,8 +28,12 @@ public class PlaylistDTO {
         return nome;
     }
 
-    public int getVisibilidade() {
+    public boolean getVisibilidade() {
         return visibilidade;
+    }
+
+    public Float getNota_media(){
+        return nota_media;
     }
 
 }

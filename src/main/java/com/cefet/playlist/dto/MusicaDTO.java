@@ -7,9 +7,7 @@ public class MusicaDTO {
     private Long id;
     private String nome;
     private Long id_artista;
-    private String album;
-    private String genero;
-    private int tempo_total;
+    private String tags;
 	private String url_musica;
 
 	public MusicaDTO() {
@@ -18,9 +16,7 @@ public class MusicaDTO {
     public MusicaDTO(Musica musica) {
         this.id = musica.getId();
         this.id_artista = musica.getArtista().getId();
-        this.album = musica.getAlbum();
-        this.genero = musica.getAlbum();
-        this.tempo_total = musica.getTempo_total();
+        this.tags = musica.getTags();
 		this.url_musica = musica.getUrl_musica();
 	}
 
@@ -36,16 +32,8 @@ public class MusicaDTO {
 		return id_artista;
 	}
 
-	public String getAlbum() {
-		return album;
-	}
-
-	public String getGenero() {
-		return genero;
-	}
-
-	public int getTempo_total() {
-		return tempo_total;
+	public String getTags() {
+		return tags;
 	}
 
 	public String getUrl_musica() {

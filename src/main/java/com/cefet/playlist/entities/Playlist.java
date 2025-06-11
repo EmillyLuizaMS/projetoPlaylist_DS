@@ -19,15 +19,19 @@ public class Playlist {
     private String nome;
 
 	@Column(nullable = false)
-	private int visibilidade;	// 0-publica, 1-privada
+	private boolean visibilidade;	// true-publica, false-privada
+
+	@Column(nullable = false)
+	private Float nota_media;
 
     public Playlist() {
 	}
 
-	public Playlist(Long id, String nome, int visibilidade) {
+	public Playlist(Long id, String nome, boolean visibilidade,  Float nota_media) {
 		this.id = id;
 		this.nome = nome;
 		this.visibilidade = visibilidade;
+		this.nota_media = nota_media;
 	}
 
 	public Long getId() {
@@ -46,12 +50,20 @@ public class Playlist {
 		this.nome = nome;
 	}
 
-	public int getVisibilidade() {
+	public boolean isVisibilidade() {
 		return visibilidade;
 	}
 
-	public void setVisibilidade(int visibilidade) {
+	public void setVisibilidade(boolean visibilidade) {
 		this.visibilidade = visibilidade;
+	}
+
+	public Float getNota_media() {
+		return nota_media;
+	}
+
+	public void setNota_media(Float nota_media) {
+		this.nota_media = nota_media;
 	}
 
 	@Override
@@ -60,7 +72,8 @@ public class Playlist {
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
-		result = prime * result + visibilidade;
+		result = prime * result + (visibilidade ? 1231 : 1237);
+		result = prime * result + ((nota_media == null) ? 0 : nota_media.hashCode());
 		return result;
 	}
 
@@ -85,8 +98,14 @@ public class Playlist {
 			return false;
 		if (visibilidade != other.visibilidade)
 			return false;
+		if (nota_media == null) {
+			if (other.nota_media != null)
+				return false;
+		} else if (!nota_media.equals(other.nota_media))
+			return false;
 		return true;
 	}
-    
+
+	
     
 }

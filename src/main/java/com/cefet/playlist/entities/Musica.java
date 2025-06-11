@@ -25,13 +25,7 @@ public class Musica {
     private Artista artista;
 
     @Column(nullable = false)
-    private String album;
-
-    @Column(nullable = false)
-    private String genero;
-
-    @Column(nullable = false)
-    private int tempo_total;
+    private String tags;
 
 	@Column(nullable = false)
 	private String url_musica;
@@ -39,13 +33,11 @@ public class Musica {
 	public Musica() {
 	}
 
-	public Musica(Long id, String nome, Artista artista, String album, String genero, int tempo_total, String url_musica) {
+	public Musica(Long id, String nome, Artista artista, String tags, String url_musica) {
 		this.id = id;
 		this.nome = nome;
 		this.artista = artista;
-		this.album = album;
-		this.genero = genero;
-		this.tempo_total = tempo_total;
+		this.tags = tags;
 		this.url_musica = url_musica;
 	}
 
@@ -73,28 +65,12 @@ public class Musica {
 		this.artista = artista;
 	}
 
-	public String getAlbum() {
-		return album;
+	public String getTags() {
+		return tags;
 	}
 
-	public void setAlbum(String album) {
-		this.album = album;
-	}
-
-	public String getGenero() {
-		return genero;
-	}
-
-	public void setGenero(String genero) {
-		this.genero = genero;
-	}
-
-	public int getTempo_total() {
-		return tempo_total;
-	}
-
-	public void setTempo_total(int tempo_total) {
-		this.tempo_total = tempo_total;
+	public void setTags(String tags) {
+		this.tags = tags;
 	}
 
 	public String getUrl_musica() {
@@ -113,9 +89,7 @@ public class Musica {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		result = prime * result + ((artista == null) ? 0 : artista.hashCode());
-		result = prime * result + ((album == null) ? 0 : album.hashCode());
-		result = prime * result + ((genero == null) ? 0 : genero.hashCode());
-		result = prime * result + tempo_total;
+		result = prime * result + ((tags == null) ? 0 : tags.hashCode());
 		result = prime * result + ((url_musica == null) ? 0 : url_musica.hashCode());
 		return result;
 	}
@@ -144,17 +118,10 @@ public class Musica {
 				return false;
 		} else if (!artista.equals(other.artista))
 			return false;
-		if (album == null) {
-			if (other.album != null)
+		if (tags == null) {
+			if (other.tags != null)
 				return false;
-		} else if (!album.equals(other.album))
-			return false;
-		if (genero == null) {
-			if (other.genero != null)
-				return false;
-		} else if (!genero.equals(other.genero))
-			return false;
-		if (tempo_total != other.tempo_total)
+		} else if (!tags.equals(other.tags))
 			return false;
 		if (url_musica == null) {
 			if (other.url_musica != null)

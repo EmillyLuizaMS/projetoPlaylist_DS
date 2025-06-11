@@ -21,7 +21,7 @@ public class Usuario {
     private String nome;
 
     @Column(nullable = false)
-    private String emil;
+    private String email;
 
     @Column(unique = true, nullable = false)
     private String login;
@@ -39,7 +39,7 @@ public class Usuario {
     public Usuario(Long id, String nome, String email, String login, String senha, NivelAcesso nivel_acesso) {
         this.id = id;
         this.nome = nome;
-        this.emil = email;
+        this.email = email;
         this.login = login;
         this.senha = senha;
         this.nivel_acesso = nivel_acesso;
@@ -61,12 +61,12 @@ public class Usuario {
 		this.nome = nome;
 	}
 
-	public String getEmil() {
-		return emil;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setEmil(String emil) {
-		this.emil = emil;
+	public void setEmail(String emil) {
+		this.email = emil;
 	}
 
 	public String getLogin() {
@@ -99,7 +99,7 @@ public class Usuario {
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
-		result = prime * result + ((emil == null) ? 0 : emil.hashCode());
+		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + ((login == null) ? 0 : login.hashCode());
 		result = prime * result + ((senha == null) ? 0 : senha.hashCode());
 		result = prime * result + ((nivel_acesso == null) ? 0 : nivel_acesso.hashCode());
@@ -125,10 +125,10 @@ public class Usuario {
 				return false;
 		} else if (!nome.equals(other.nome))
 			return false;
-		if (emil == null) {
-			if (other.emil != null)
+		if (email == null) {
+			if (other.email != null)
 				return false;
-		} else if (!emil.equals(other.emil))
+		} else if (!email.equals(other.email))
 			return false;
 		if (login == null) {
 			if (other.login != null)
