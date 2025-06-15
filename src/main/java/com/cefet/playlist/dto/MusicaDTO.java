@@ -17,7 +17,8 @@ public class MusicaDTO {
         this.id = musica.getId();
         this.id_artista = musica.getArtista().getId();
         this.tags = musica.getTags();
-		this.url_musica = musica.getUrl_musica();
+		this.url_musica = musica.getUrlMusica();
+		this.nome = musica.getNome();
 	}
 
 	public Long getId() {

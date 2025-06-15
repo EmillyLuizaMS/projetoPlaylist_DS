@@ -17,32 +17,32 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "nome", nullable = false)
     private String nome;
 
-    @Column(nullable = false)
+    @Column(name = "email",nullable = false, unique = true)
     private String email;
 
-    @Column(unique = true, nullable = false)
+    @Column(name = "login", unique = true, nullable = false)
     private String login;
 
-    @Column(nullable = false)
+    @Column(name = "senha", nullable = false)
     private String senha;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "nivel_acesso", nullable = false)
-    private NivelAcesso nivel_acesso;
+    private NivelAcesso nivelAcesso;
 
     public Usuario() {
     }
 
-    public Usuario(Long id, String nome, String email, String login, String senha, NivelAcesso nivel_acesso) {
+    public Usuario(Long id, String nome, String email, String login, String senha, NivelAcesso nivelAcesso) {
         this.id = id;
         this.nome = nome;
         this.email = email;
         this.login = login;
         this.senha = senha;
-        this.nivel_acesso = nivel_acesso;
+        this.nivelAcesso = nivelAcesso;
     }
 
 	public Long getId() {
@@ -65,8 +65,8 @@ public class Usuario {
 		return email;
 	}
 
-	public void setEmail(String emil) {
-		this.email = emil;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getLogin() {
@@ -85,12 +85,12 @@ public class Usuario {
 		this.senha = senha;
 	}
 
-	public NivelAcesso getNivel_acesso() {
-		return nivel_acesso;
+	public NivelAcesso getNivelAcesso() {
+		return nivelAcesso;
 	}
 
-	public void setNivel_acesso(NivelAcesso nivel_acesso) {
-		this.nivel_acesso = nivel_acesso;
+	public void setNivelAcesso(NivelAcesso nivelAcesso) {
+		this.nivelAcesso = nivelAcesso;
 	}
 
 	@Override
@@ -102,7 +102,7 @@ public class Usuario {
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + ((login == null) ? 0 : login.hashCode());
 		result = prime * result + ((senha == null) ? 0 : senha.hashCode());
-		result = prime * result + ((nivel_acesso == null) ? 0 : nivel_acesso.hashCode());
+		result = prime * result + ((nivelAcesso == null) ? 0 : nivelAcesso.hashCode());
 		return result;
 	}
 
@@ -140,7 +140,7 @@ public class Usuario {
 				return false;
 		} else if (!senha.equals(other.senha))
 			return false;
-		if (nivel_acesso != other.nivel_acesso)
+		if (nivelAcesso != other.nivelAcesso)
 			return false;
 		return true;
 	}

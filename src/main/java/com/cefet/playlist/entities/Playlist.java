@@ -1,11 +1,6 @@
 package com.cefet.playlist.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "tb_playlist")
@@ -15,23 +10,35 @@ public class Playlist {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false, name = "nome")
     private String nome;
 
-	@Column(nullable = false)
+	@Column(name = "visibilidade", nullable = false)
 	private boolean visibilidade;	// true-publica, false-privada
 
-	@Column(nullable = false)
-	private Float nota_media;
+	@Column(name = "nota_media")
+	private Float notaMedia;
 
-    public Playlist() {
+	@ManyToOne
+	@JoinColumn(name = "usuario_id", nullable = false)
+	private Usuario usuario;
+
+	public Usuario getUsuario() {
+		return usuario;
 	}
 
-	public Playlist(Long id, String nome, boolean visibilidade,  Float nota_media) {
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+	public Playlist() {
+	}
+
+	public Playlist(Long id, String nome, boolean visibilidade,  Float notaMedia) {
 		this.id = id;
 		this.nome = nome;
 		this.visibilidade = visibilidade;
-		this.nota_media = nota_media;
+		this.notaMedia = notaMedia;
 	}
 
 	public Long getId() {
@@ -58,12 +65,12 @@ public class Playlist {
 		this.visibilidade = visibilidade;
 	}
 
-	public Float getNota_media() {
-		return nota_media;
+	public Float getNotaMedia() {
+		return notaMedia;
 	}
 
-	public void setNota_media(Float nota_media) {
-		this.nota_media = nota_media;
+	public void setNotaMedia(Float nota_media) {
+		this.notaMedia = nota_media;
 	}
 
 	@Override
@@ -73,7 +80,7 @@ public class Playlist {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		result = prime * result + (visibilidade ? 1231 : 1237);
-		result = prime * result + ((nota_media == null) ? 0 : nota_media.hashCode());
+		result = prime * result + ((notaMedia == null) ? 0 : notaMedia.hashCode());
 		return result;
 	}
 
@@ -98,10 +105,10 @@ public class Playlist {
 			return false;
 		if (visibilidade != other.visibilidade)
 			return false;
-		if (nota_media == null) {
-			if (other.nota_media != null)
+		if (notaMedia == null) {
+			if (other.notaMedia != null)
 				return false;
-		} else if (!nota_media.equals(other.nota_media))
+		} else if (!notaMedia.equals(other.notaMedia))
 			return false;
 		return true;
 	}

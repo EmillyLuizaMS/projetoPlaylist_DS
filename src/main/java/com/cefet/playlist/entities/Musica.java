@@ -17,28 +17,28 @@ public class Musica {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "nome",nullable = false)
     private String nome;
 
     @ManyToOne
     @JoinColumn(name = "id_artista", nullable = false)
     private Artista artista;
 
-    @Column(nullable = false)
+    @Column(name = "tags",nullable = false)
     private String tags;
 
-	@Column(nullable = false)
-	private String url_musica;
+	@Column(name = "url_musica", nullable = false)
+	private String urlMusica;
 
 	public Musica() {
 	}
 
-	public Musica(Long id, String nome, Artista artista, String tags, String url_musica) {
+	public Musica(Long id, String nome, Artista artista, String tags, String urlMusica) {
 		this.id = id;
 		this.nome = nome;
 		this.artista = artista;
 		this.tags = tags;
-		this.url_musica = url_musica;
+		this.urlMusica = urlMusica;
 	}
 
 	public Long getId() {
@@ -73,12 +73,12 @@ public class Musica {
 		this.tags = tags;
 	}
 
-	public String getUrl_musica() {
-		return url_musica;
+	public String getUrlMusica() {
+		return urlMusica;
 	}
 
-	public void setUrl_musica(String url_musica) {
-		this.url_musica = url_musica;
+	public void setUrlMusica(String url_musica) {
+		this.urlMusica = url_musica;
 	}
 
 
@@ -90,7 +90,7 @@ public class Musica {
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		result = prime * result + ((artista == null) ? 0 : artista.hashCode());
 		result = prime * result + ((tags == null) ? 0 : tags.hashCode());
-		result = prime * result + ((url_musica == null) ? 0 : url_musica.hashCode());
+		result = prime * result + ((urlMusica == null) ? 0 : urlMusica.hashCode());
 		return result;
 	}
 
@@ -123,10 +123,10 @@ public class Musica {
 				return false;
 		} else if (!tags.equals(other.tags))
 			return false;
-		if (url_musica == null) {
-			if (other.url_musica != null)
+		if (urlMusica == null) {
+			if (other.urlMusica != null)
 				return false;
-		} else if (!url_musica.equals(other.url_musica))
+		} else if (!urlMusica.equals(other.urlMusica))
 			return false;
 		return true;
 	}
