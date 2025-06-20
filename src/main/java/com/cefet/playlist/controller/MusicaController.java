@@ -1,6 +1,5 @@
 package com.cefet.playlist.controller;
 
-
 import com.cefet.playlist.dto.MusicaDTO;
 import com.cefet.playlist.services.MusicaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +26,22 @@ public class MusicaController {
         MusicaDTO musica = musicaService.findById(id);
         return new ResponseEntity<>(musica, HttpStatus.OK);
     }
+    
     @GetMapping
     public ResponseEntity<List<MusicaDTO> >findAll() {
         List<MusicaDTO> musicas = musicaService.findAll();
         return new ResponseEntity<>(musicas, HttpStatus.OK);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<MusicaDTO> update(@PathVariable Long id, @RequestBody MusicaDTO dto) {
+		MusicaDTO salvoDTO = musicaService.update(id, dto);
+		return ResponseEntity.ok(salvoDTO);
+	}
+	
+	@DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+		musicaService.delete(id);
+		return ResponseEntity.noContent().build();
+	}
 }

@@ -10,7 +10,7 @@ public class Playlist {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, name = "nome")
+    @Column(nullable = false, name = "nome", unique = true)
     private String nome;
 
 	@Column(name = "visibilidade", nullable = false)
@@ -23,54 +23,56 @@ public class Playlist {
 	@JoinColumn(name = "usuario_id", nullable = false)
 	private Usuario usuario;
 
+	
+	public Playlist() {
+	}
+	
+	public Playlist(Long id, String nome, boolean visibilidade,  Float notaMedia, Usuario usuario) {
+		this.id = id;
+		this.nome = nome;
+		this.visibilidade = visibilidade;
+		this.notaMedia = notaMedia;
+		this.usuario = usuario;
+	}
+	
+	public Long getId() {
+		return id;
+	}
+	
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
+	public String getNome() {
+		return nome;
+	}
+	
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+	
+	public boolean isVisibilidade() {
+		return visibilidade;
+	}
+	
+	public void setVisibilidade(boolean visibilidade) {
+		this.visibilidade = visibilidade;
+	}
+	
+	public Float getNotaMedia() {
+		return notaMedia;
+	}
+	
+	public void setNotaMedia(Float nota_media) {
+		this.notaMedia = nota_media;
+	}
+	
 	public Usuario getUsuario() {
 		return usuario;
 	}
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
-	}
-
-	public Playlist() {
-	}
-
-	public Playlist(Long id, String nome, boolean visibilidade,  Float notaMedia) {
-		this.id = id;
-		this.nome = nome;
-		this.visibilidade = visibilidade;
-		this.notaMedia = notaMedia;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public boolean isVisibilidade() {
-		return visibilidade;
-	}
-
-	public void setVisibilidade(boolean visibilidade) {
-		this.visibilidade = visibilidade;
-	}
-
-	public Float getNotaMedia() {
-		return notaMedia;
-	}
-
-	public void setNotaMedia(Float nota_media) {
-		this.notaMedia = nota_media;
 	}
 
 	@Override

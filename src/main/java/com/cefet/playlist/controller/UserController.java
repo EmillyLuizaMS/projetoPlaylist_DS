@@ -4,6 +4,7 @@ import com.cefet.playlist.dto.UsuarioDTO;
 import com.cefet.playlist.dto.UsuarioInsertDTO;
 import com.cefet.playlist.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,20 +17,22 @@ public class UserController {
     private UsuarioService usuarioService;
 
     @PostMapping
-    public ResponseEntity<UsuarioDTO> insertUser(@RequestBody UsuarioInsertDTO usuario) {
+    public ResponseEntity<UsuarioDTO> create(@RequestBody UsuarioInsertDTO usuario) {
         UsuarioDTO user =  usuarioService.insert(usuario);
         return  ResponseEntity.ok(user);
     }
 
-
     @PutMapping("/{id}")
-    public ResponseEntity<UsuarioDTO> updateUser(
-            @PathVariable Long id,
-            @RequestBody UsuarioInsertDTO dto) {
+    public ResponseEntity<UsuarioDTO> updateUser(@PathVariable Long id, @RequestBody UsuarioInsertDTO dto) {
         UsuarioDTO user = usuarioService.update(id, dto);
         return ResponseEntity.ok(user);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<UsuarioDTO> findById(@PathVariable Long id) {
+        UsuarioDTO user = usuarioService.findById(id);
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
 
     @GetMapping
     public ResponseEntity<List<UsuarioDTO>> getAllUsers() {
@@ -38,7 +41,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         usuarioService.delete(id);
         return ResponseEntity.noContent().build();
     }

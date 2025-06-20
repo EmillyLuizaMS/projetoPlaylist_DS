@@ -10,8 +10,6 @@ public class PlaylistDTO {
     private Float nota_media;
     private Long userID;
 
-
-
     public PlaylistDTO() {
     }
 

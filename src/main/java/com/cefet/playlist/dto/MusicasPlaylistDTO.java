@@ -21,7 +21,7 @@ public class MusicasPlaylistDTO {
         return id;
     }
 
-    public Long getMusicaplaylist() {
+    public Long getId_playlist() {
         return id_playlist;
     }
 
