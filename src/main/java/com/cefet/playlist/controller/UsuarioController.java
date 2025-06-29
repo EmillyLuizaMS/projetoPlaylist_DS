@@ -1,7 +1,6 @@
 package com.cefet.playlist.controller;
 
 import com.cefet.playlist.dto.UsuarioDTO;
-import com.cefet.playlist.dto.UsuarioInsertDTO;
 import com.cefet.playlist.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,19 +10,20 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("user")
-public class UserController {
+@RequestMapping("/usuario")
+public class UsuarioController {
+
     @Autowired
     private UsuarioService usuarioService;
 
     @PostMapping
-    public ResponseEntity<UsuarioDTO> create(@RequestBody UsuarioInsertDTO usuario) {
+    public ResponseEntity<UsuarioDTO> create(@RequestBody UsuarioDTO usuario) {
         UsuarioDTO user =  usuarioService.insert(usuario);
         return  ResponseEntity.ok(user);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UsuarioDTO> updateUser(@PathVariable Long id, @RequestBody UsuarioInsertDTO dto) {
+    public ResponseEntity<UsuarioDTO> update(@PathVariable Long id, @RequestBody UsuarioDTO dto) {
         UsuarioDTO user = usuarioService.update(id, dto);
         return ResponseEntity.ok(user);
     }
@@ -35,7 +35,7 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UsuarioDTO>> getAllUsers() {
+    public ResponseEntity<List<UsuarioDTO>> getAll() {
         List<UsuarioDTO> allUsers = usuarioService.findAll();
         return  ResponseEntity.ok(allUsers);
     }
@@ -46,3 +46,4 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 }
+

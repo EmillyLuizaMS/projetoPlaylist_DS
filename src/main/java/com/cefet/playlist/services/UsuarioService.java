@@ -2,12 +2,11 @@ package com.cefet.playlist.services;
 
 import java.util.List;
 
-import com.cefet.playlist.dto.UsuarioInsertDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.cefet.playlist.dto.UsuarioDTO;
-import com.cefet.playlist.entities.NivelAcesso;
 import com.cefet.playlist.entities.Usuario;
 import com.cefet.playlist.repositories.UsuarioRepository;
 
@@ -18,6 +17,9 @@ public class UsuarioService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     // Buscar todos
 	public List<UsuarioDTO> findAll() {
@@ -33,9 +35,8 @@ public class UsuarioService {
 	}
 
     // Inserir Usuario
-    public UsuarioDTO insert(UsuarioInsertDTO dto) {
-
-        // Verifica login e email
+    public UsuarioDTO insert(UsuarioDTO dto) {
+        // Verifica login
         if (usuarioRepository.existsByLogin(dto.getLogin())) {
             throw new IllegalArgumentException("Login já está em uso.");
         }
@@ -44,7 +45,7 @@ public class UsuarioService {
         usuario.setNome(dto.getNome());
         usuario.setEmail(dto.getEmail());
         usuario.setLogin(dto.getLogin());
-        usuario.setSenha(dto.getSenha()); // Hash da senha
+        usuario.setSenha(passwordEncoder.encode(dto.getSenha()));
         usuario.setNivelAcesso(dto.getNivelAcesso());
 
         Usuario usuarioSalvo = usuarioRepository.save(usuario);
@@ -52,7 +53,7 @@ public class UsuarioService {
     }
 
     //Atualizar Usuário
-    public UsuarioDTO update(Long id, UsuarioInsertDTO dto) {
+    public UsuarioDTO update(Long id, UsuarioDTO dto) {
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado com ID: " + id));
 
@@ -65,9 +66,9 @@ public class UsuarioService {
         usuario.setEmail(dto.getEmail());
         usuario.setSenha(dto.getSenha());
 
-        if (dto.getNivelAcesso() == NivelAcesso.ADMIN) {
-            usuario.setNivelAcesso(dto.getNivelAcesso());
-        }
+        //if (dto.getNivelAcesso() == NivelAcesso.ADMIN) {
+        //    usuario.setNivelAcesso(dto.getNivelAcesso());
+        //}
 
         return new UsuarioDTO(usuarioRepository.save(usuario));
     }
@@ -78,6 +79,11 @@ public class UsuarioService {
             throw new EntityNotFoundException("Usuário não encontrado com ID: " + id);
         }
         usuarioRepository.deleteById(id);
+    }
+
+    // Verifica login   
+    public boolean existsByLogin(String login) {
+        return usuarioRepository.existsByLogin(login);
     }
 
 }
