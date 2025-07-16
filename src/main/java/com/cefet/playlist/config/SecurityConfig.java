@@ -78,7 +78,7 @@ public class SecurityConfig {
 
             // Regras de Autorização para USUÁRIOS
             .requestMatchers(HttpMethod.GET, "/usuario/**").hasRole("ADMIN") // Apenas ADMIN pode ver detalhes de outros usuários
-            .requestMatchers(HttpMethod.POST, "/usuario").hasAnyRole("ADMIN", "USER") // ADMIN e USER podem criar usuários
+            .requestMatchers(HttpMethod.POST, "/usuario").permitAll() // ADMIN e USER podem criar usuários
             .requestMatchers(HttpMethod.PUT, "/usuario/**").hasAnyRole("ADMIN", "USER") // Apenas ADMIN pode atualizar usuários
             .requestMatchers(HttpMethod.DELETE, "/usuario/**").hasRole("ADMIN") // Apenas ADMIN pode deletar usuários
 
@@ -86,7 +86,7 @@ public class SecurityConfig {
                 .anyRequest().authenticated() 
             )
             .headers(headers -> headers.frameOptions().disable()) // Para H2 Console
-            .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) 
+            .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

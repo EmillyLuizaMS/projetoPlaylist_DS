@@ -9,7 +9,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "tb_musicasPlaylist")
+@Table(name = "tb_musicas_playlist")
 public class MusicasPlaylist {
 
     @Id

@@ -1,19 +1,21 @@
-INSERT INTO tb_usuario (nome, email, login, senha, nivel_acesso) VALUES
-('admin', 'admin@domain.com', 'admin123', '123456', 'ADMIN'),
-('user', 'user@domain.com', 'user123', '123456', 'USER');
+-- Usuários iniciais. Lembre-se que estas senhas em texto plano não servem para login.
+INSERT INTO tb_usuario (nome, email, senha, login, nivel_acesso) VALUES ('Admin User', 'admin@email.com', '123456', 'admin', 'ADMIN');
+INSERT INTO tb_usuario (nome, email, senha, login, nivel_acesso) VALUES ('Normal User', 'user@email.com', '123456', 'normal_user', 'USER');
 
-INSERT INTO tb_artista (nome, biografia) VALUES
-('Artist 1', 'Biography of Artist 1'),
-('Artist 2', 'Biography of Artist 2');
+-- Artistas
+INSERT INTO tb_artista (nome, descricao) VALUES ('Queen', 'Banda de rock britânica formada em 1970.');
+INSERT INTO tb_artista (nome, descricao) VALUES ('AC/DC', 'Banda de hard rock australiana formada em 1973.');
 
-INSERT INTO tb_musica (titulo, artista_id) VALUES
-('Song 1', 1, 'rap', 'www'),
-('Song 2', 2, 'rock', 'wwww');
+-- Músicas
+INSERT INTO tb_musica (nome, url_musica, id_artista) VALUES ('Bohemian Rhapsody', 'https://www.youtube.com/watch?v=fJ9rUzIMcZQ', 1);
+INSERT INTO tb_musica (nome, url_musica, id_artista) VALUES ('Thunderstruck', 'https://www.youtube.com/watch?v=v2AC41dglnM', 2);
+INSERT INTO tb_musica (nome,  url_musica, id_artista) VALUES ('Another One Bites the Dust', 'https://www.youtube.com/watch?v=rY0WxgSXdEE', 1);
 
-INSERT INTO tb_playlist (nome, usuario_id) VALUES
-('Playlist 1', 'true', 1, 9, 1),
-('Playlist 2', 'false', 2, 8.5, 2);
+-- Playlists
+INSERT INTO tb_playlist (nome, visibilidade, nota_media, usuario_id) VALUES ('Rock Classics', true, 9.5, 1);
+INSERT INTO tb_playlist (nome, visibilidade, nota_media, usuario_id) VALUES ('My Favorite Songs', false, 8.0, 2);
 
-INSERT INTO tb_musica_playlist (musica_id, playlist_id) VALUES
-(1, 1),
-(2, 2);
+-- Associando músicas às playlists
+INSERT INTO tb_musicas_playlist (id_musica, id_playlist) VALUES (1, 1);
+INSERT INTO tb_musicas_playlist (id_musica, id_playlist) VALUES (2, 1);
+INSERT INTO tb_musicas_playlist (id_musica, id_playlist) VALUES (3, 2);

@@ -24,7 +24,7 @@ public class Musica {
     @JoinColumn(name = "id_artista", nullable = false)
     private Artista artista;
 
-    @Column(name = "tags",nullable = false)
+    @Column(name = "tags")
     private String tags;
 
 	@Column(name = "url_musica", nullable = false)
