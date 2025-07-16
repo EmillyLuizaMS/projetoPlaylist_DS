@@ -29,6 +29,22 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
+
+        // --- INÍCIO DA CORREÇÃO ---
+        String path = request.getRequestURI();
+        // Se a rota for pública, não validamos o token e passamos para o próximo filtro.
+        if ("/usuario".equals(path) && "POST".equalsIgnoreCase(request.getMethod())) {
+            filterChain.doFilter(request, response);
+            return; // Importante: o 'return' para a execução do filtro aqui.
+        }
+        // Adicione aqui outras rotas públicas se necessário, como a de login:
+        // if (("/usuario".equals(path) && "POST".equalsIgnoreCase(request.getMethod())) ||
+        //     ("/auth".equals(path) && "POST".equalsIgnoreCase(request.getMethod()))) {
+        //     filterChain.doFilter(request, response);
+        //     return;
+        // }
+        // --- FIM DA CORREÇÃO ---
+
         try {
             String jwt = getJwtFromRequest(request);
 

@@ -1,6 +1,5 @@
 package com.cefet.playlist.config;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,7 +23,7 @@ import com.cefet.playlist.services.UsuarioDetailsService;
 public class SecurityConfig {
 
     @Autowired
-    private UsuarioDetailsService usuarioDetailsService; 
+    private UsuarioDetailsService usuarioDetailsService;
 
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
@@ -34,60 +33,66 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .cors().and()        	
+                .cors().and()
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/h2-console/**").permitAll() // Acesso ao H2 Console
-                .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll() // Acesso ao Swagger UI
-                .requestMatchers(HttpMethod.POST, "/auth").permitAll() // Permitir login de usuário
+                        // --- INÍCIO DA CORREÇÃO ---
+                        // 1. Permite todas as requisições do tipo OPTIONS (para o CORS preflight)
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
-                
-            // Regras de Autorização para ARTISTA
-            .requestMatchers(HttpMethod.GET, "/artista/**").hasAnyRole("ADMIN", "USER") // Acesso para ADMIN e USER
-            .requestMatchers(HttpMethod.POST, "/artista").hasRole("ADMIN") // Apenas ADMIN pode criar artistas
-            .requestMatchers(HttpMethod.PUT, "/artista/**").hasRole("ADMIN") // Apenas ADMIN pode atualizar artistas
-            .requestMatchers(HttpMethod.DELETE, "/artista/**").hasRole("ADMIN") // Apenas ADMIN pode deletar artistas
+                        // 2. Coloca as rotas públicas primeiro para garantir que são processadas antes das regras restritivas.
+                        .requestMatchers("/h2-console/**").permitAll()
+                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/auth").permitAll()      // Permitir login
+                        .requestMatchers(HttpMethod.POST, "/usuario").permitAll()   // Permitir registo de usuário
+                        // --- FIM DA CORREÇÃO ---
 
-            // Regras de Autorização para COMENTÁRIOS
-            .requestMatchers(HttpMethod.GET, "/comentario/**").hasAnyRole("ADMIN", "USER") // ADMIN e USER podem visualizar comentários
-            .requestMatchers(HttpMethod.POST, "/comentario").hasAnyRole("ADMIN", "USER") // ADMIN e USER podem criar comentários
-            .requestMatchers(HttpMethod.PUT, "/comentario/**").hasAnyRole("ADMIN", "USER") // ADMIN e USER podem editar seus comentários
-            .requestMatchers(HttpMethod.DELETE, "/comentario/**").hasAnyRole("ADMIN", "USER") // ADMIN e USER podem excluir seus comentários
+                        // Regras de Autorização para ARTISTA
+                        .requestMatchers(HttpMethod.GET, "/artista/**").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.POST, "/artista").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/artista/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/artista/**").hasRole("ADMIN")
 
-            // Regras de Autorização para FAVORITOS
-            .requestMatchers(HttpMethod.GET, "/favorito/**").hasAnyRole("ADMIN", "USER") // ADMIN e USER podem visualizar favoritos
-            .requestMatchers(HttpMethod.POST, "/favorito").hasAnyRole("ADMIN", "USER") // ADMIN e USER podem criar favoritos
-            .requestMatchers(HttpMethod.DELETE, "/favorito/**").hasAnyRole("ADMIN", "USER") // ADMIN e USER podem excluir favoritos
+                        // Regras de Autorização para COMENTÁRIOS
+                        .requestMatchers(HttpMethod.GET, "/comentario/**").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.POST, "/comentario").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.PUT, "/comentario/**").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.DELETE, "/comentario/**").hasAnyRole("ADMIN", "USER")
 
-            // Regras de Autorização para MÚSICAS
-            .requestMatchers(HttpMethod.GET, "/musica/**").hasAnyRole("ADMIN", "USER") // ADMIN e USER podem visualizar músicas
-            .requestMatchers(HttpMethod.POST, "/musica").hasRole("ADMIN") // Apenas ADMIN pode criar músicas
-            .requestMatchers(HttpMethod.PUT, "/musica/**").hasRole("ADMIN") // Apenas ADMIN pode atualizar músicas
-            .requestMatchers(HttpMethod.DELETE, "/musica/**").hasRole("ADMIN") // Apenas ADMIN pode deletar músicas
+                        // Regras de Autorização para FAVORITOS
+                        .requestMatchers(HttpMethod.GET, "/favorito/**").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.POST, "/favorito").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.DELETE, "/favorito/**").hasAnyRole("ADMIN", "USER")
 
-            // Regras de Autorização para MÚSICAS NA PLAYLIST
-            .requestMatchers(HttpMethod.GET, "/musicas-playlist/**").hasAnyRole("ADMIN", "USER") // ADMIN e USER podem visualizar músicas na playlist
-            .requestMatchers(HttpMethod.POST, "/musicas-playlist/add").hasAnyRole("ADMIN", "USER") //  ADMIN e USER podem adicionar músicas na playlist
-            .requestMatchers(HttpMethod.DELETE, "/musicas-playlist/**").hasAnyRole("ADMIN", "USER") //  ADMIN e USER podem remover músicas da playlist
+                        // Regras de Autorização para MÚSICAS
+                        .requestMatchers(HttpMethod.GET, "/musica/**").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.POST, "/musica").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/musica/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/musica/**").hasRole("ADMIN")
 
-            // Regras de Autorização para PLAYLISTS
-            .requestMatchers(HttpMethod.GET, "/playlist/**").hasAnyRole("ADMIN", "USER") // ADMIN e USER podem visualizar playlists
-            .requestMatchers(HttpMethod.POST, "/playlist").hasAnyRole("ADMIN", "USER") // ADMIN e USER podem criar playlists
-            .requestMatchers(HttpMethod.PUT, "/playlist/**").hasAnyRole("ADMIN", "USER") // ADMIN e USER podem editar suas playlists
-            .requestMatchers(HttpMethod.DELETE, "/playlist/**").hasAnyRole("ADMIN", "USER") // ADMIN e USER podem excluir suas playlists
+                        // Regras de Autorização para MÚSICAS NA PLAYLIST
+                        .requestMatchers(HttpMethod.GET, "/musicas-playlist/**").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.POST, "/musicas-playlist/add").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.DELETE, "/musicas-playlist/**").hasAnyRole("ADMIN", "USER")
 
-            // Regras de Autorização para USUÁRIOS
-            .requestMatchers(HttpMethod.GET, "/usuario/**").hasRole("ADMIN") // Apenas ADMIN pode ver detalhes de outros usuários
-            .requestMatchers(HttpMethod.POST, "/usuario").permitAll() // ADMIN e USER podem criar usuários
-            .requestMatchers(HttpMethod.PUT, "/usuario/**").hasAnyRole("ADMIN", "USER") // Apenas ADMIN pode atualizar usuários
-            .requestMatchers(HttpMethod.DELETE, "/usuario/**").hasRole("ADMIN") // Apenas ADMIN pode deletar usuários
+                        // Regras de Autorização para PLAYLISTS
+                        .requestMatchers(HttpMethod.GET, "/playlist/**").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.POST, "/playlist").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.PUT, "/playlist/**").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.DELETE, "/playlist/**").hasAnyRole("ADMIN", "USER")
 
-            //Todos os outros endpoints exigem autenticação 
-                .anyRequest().authenticated() 
-            )
-            .headers(headers -> headers.frameOptions().disable()) // Para H2 Console
-            .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+                        // Regras de Autorização para USUÁRIOS
+                        .requestMatchers(HttpMethod.GET, "/usuario/**").hasRole("ADMIN")
+                        // .requestMatchers(HttpMethod.POST, "/usuario").permitAll() // Movido para cima
+                        .requestMatchers(HttpMethod.PUT, "/usuario/**").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.DELETE, "/usuario/**").hasRole("ADMIN")
+
+                        // Todos os outros endpoints exigem autenticação
+                        .anyRequest().authenticated()
+                )
+                .headers(headers -> headers.frameOptions().disable())
+                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
@@ -98,7 +103,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {    	       
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -109,19 +114,18 @@ public class SecurityConfig {
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
     }
-    
-	 @Bean
-	  public WebMvcConfigurer corsConfigurer() {
-	    return new WebMvcConfigurer() {
-	      @Override
-	      public void addCorsMappings(CorsRegistry registry) {
-	        registry.addMapping("/**")
-	          .allowedOrigins("http://localhost:4200")
-	          .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-	          .allowedHeaders("*")
-	          .allowCredentials(true);
-	      }
-	    };
-	  }   
 
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")
+                        .allowedOrigins("http://localhost:4200")
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                        .allowedHeaders("*")
+                        .allowCredentials(true);
+            }
+        };
+    }
 }
