@@ -13,11 +13,16 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.cefet.playlist.security.JwtAuthenticationFilter;
 import com.cefet.playlist.services.UsuarioDetailsService;
+
+import java.util.Arrays;
 
 @Configuration
 public class SecurityConfig {
@@ -82,7 +87,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.DELETE, "/playlist/**").hasAnyRole("ADMIN", "USER")
 
                         // Regras de Autorização para USUÁRIOS
-                        .requestMatchers(HttpMethod.GET, "/usuario/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/usuario/**").authenticated()
                         // .requestMatchers(HttpMethod.POST, "/usuario").permitAll() // Movido para cima
                         .requestMatchers(HttpMethod.PUT, "/usuario/**").hasAnyRole("ADMIN", "USER")
                         .requestMatchers(HttpMethod.DELETE, "/usuario/**").hasRole("ADMIN")
@@ -116,16 +121,15 @@ public class SecurityConfig {
     }
 
     @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:4200")
-                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                        .allowedHeaders("*")
-                        .allowCredentials(true);
-            }
-        };
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
+        configuration.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 }
