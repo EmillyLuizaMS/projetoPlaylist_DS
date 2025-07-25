@@ -124,7 +124,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         // Adicione a URL do seu frontend do Netlify aqui!
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200", "https://app-musica.netlify.app"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200", "https://app-musica.netlify.app", "https://projetoplaylist-ds-fn33.onrender.com"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);
